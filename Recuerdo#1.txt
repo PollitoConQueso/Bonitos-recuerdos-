@@ -1,0 +1,97 @@
+<!-- 
+    Código creado por Francisco Hernandez
+    Fecha de creación: 01/06/2024
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recuerdos Para Mami Numero 1</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, black, blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        #miBoton {
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+        #mensaje {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 3em;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: none;
+            text-align: center;
+            transition: opacity 2s;
+        }
+    </style>
+</head>
+<body>
+    <button id="miBoton">Dame clic</button>
+    <div id="mensaje"></div>
+
+    <script>
+        var miBoton = document.getElementById('miBoton');
+        var mensaje = document.getElementById('mensaje');
+        var contador = 0;
+        var intervalo;
+
+        miBoton.addEventListener('click', function() {
+            if (miBoton.textContent === 'Dame clic') {
+                miBoton.textContent = 'Atrápame si puedes';
+                intervalo = setInterval(moverBoton, 250);
+                setTimeout(function() {
+                    clearInterval(intervalo);
+                    miBoton.addEventListener('click', mostrarMensaje);
+                }, 10000);
+            }
+        });
+
+        function moverBoton() {
+            var x = Math.random() * (window.innerWidth - miBoton.offsetWidth);
+            var y = Math.random() * (window.innerHeight - miBoton.offsetHeight);
+            miBoton.style.left = x + 'px';
+            miBoton.style.top = y + 'px';
+            miBoton.style.position = 'absolute';
+        }
+
+        function mostrarMensaje() {
+            miBoton.style.display = 'none';
+            mensaje.style.display = 'block';
+            var texto1 = 'Hola, buenos días, Mami, solamente queria desearte un feliz inicio de semana y recordarte que eres la mejor mami del mundo y que te amo muchisimo';
+            var texto2 = 'Espero que tu día sea tan hermoso como tú, mami. ¡Hasta luego!';
+            escribirTexto(texto1, function() {
+                setTimeout(function() {
+                    mensaje.style.opacity = '0';
+                    setTimeout(function() {
+                        mensaje.textContent = '';
+                        mensaje.style.opacity = '1';
+                        escribirTexto(texto2);
+                    }, 2000);
+                }, 5000);
+            });
+        }
+
+        function escribirTexto(texto, callback) {
+            var i = 0;
+            var intervalo = setInterval(function() {
+                mensaje.textContent += texto[i];
+                i++;
+                if (i >= texto.length) {
+                    clearInterval(intervalo);
+                    if (callback) callback();
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
